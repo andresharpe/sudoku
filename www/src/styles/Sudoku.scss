@@ -1,0 +1,181 @@
+/// ./www/src/styles/Sudoku.scss
+
+// screen size calculations
+
+$cell_size_desktop: 60px;
+$cell_size_mobile: 9vw;
+$mobile_width: $cell_size_desktop*11;
+
+// colors
+
+$color-foreground: theme-color("dark");
+$color-background: #060606;
+$color-given-foreground: theme-color("dark");
+$color-given-background: theme-color("secondary");
+$color-solved-foreground: theme-color("light");
+$color-solved-background: theme-color("success");
+$color-grid-outline: theme-color("dark");
+$color-grid-cells: theme-color("light");
+$color-error-foreground: theme-color("danger");
+$color-selected-foreground: theme-color("light");
+$color-selected-background: theme-color("warning");
+
+// styles
+
+@mixin cell-given-style()
+{ 
+    color: $color-given-foreground;
+    background-color: $color-given-background; 
+    font-weight: bold;
+}
+
+@mixin cell-notgiven-style()
+{ 
+    color: $color-foreground;
+    background-color: $color-background; 
+}
+
+@mixin cell-solved-style()
+{ 
+    color: $color-solved-foreground;
+    background-color: $color-solved-background; 
+}
+
+@mixin cell-selected-style()
+{ 
+    color: $color-selected-foreground;
+    background-color: $color-selected-background; 
+}
+
+// animation keyframes
+
+@keyframes cell-solved-given {
+    0% { @include cell-given-style(); }
+    50% { @include cell-solved-style(); }
+    100% { @include cell-given-style(); }
+}
+
+@keyframes cell-solved-notgiven {
+    0% { @include cell-notgiven-style(); }
+    50% { @include cell-solved-style(); }
+    100% { @include cell-notgiven-style(); }
+}
+
+@keyframes cell-solved-selected {
+    0% { @include cell-selected-style(); }
+    50% { @include cell-solved-style(); }
+    100% { @include cell-selected-style(); }
+}
+
+// sudoku styles
+
+body {
+    margin: 15px;
+    @include cell-notgiven-style();
+    text-align: left;
+    font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.775rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+// grid
+
+.sudoku-grid {
+    border-collapse: collapse;
+    border: 3px solid;
+    border-color: $color-grid-outline;
+    margin: 0;
+    padding: 0;
+}
+
+.sudoku-cell:nth-child(3n) {
+    border-right: 3px solid $color-grid-outline;
+}
+
+.sudoku-row:nth-child(3n) {
+    border-bottom: 3px solid $color-grid-outline;
+}
+
+// cell colors
+
+.sudoku-cell {
+    @media only screen and (max-width: $mobile_width) {
+        width: $cell_size_mobile;
+        height: $cell_size_mobile;
+        font-size: ($cell_size_mobile/48*30);
+    }
+    @media only screen and (min-width: $mobile_width) {
+        width: $cell_size_desktop;
+        height: $cell_size_desktop;
+        font-size: ($cell_size_desktop/48*30);
+    }
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid;
+    border-color: $color-grid-cells;
+}
+
+.sudoku-cell-given {
+    @include cell-given-style();
+}
+
+.sudoku-cell-markup {
+    border-collapse: collapse;
+    border: none;
+    width: 100%;
+    height: 100%;
+    color: theme-color("success");
+}
+
+.sudoku-cell-markup td {
+    @media only screen and (max-width: $mobile_width) {
+        font-size: ($cell_size_mobile/48*9);
+    }
+    @media only screen and (min-width: $mobile_width) {
+        font-size: ($cell_size_desktop/48*9);
+    }
+    width: 33.3%;
+    height: 33.3%;
+}
+
+.sudoku-cell-selected {
+    color: $color-selected-foreground;
+    background-color: $color-selected-background;
+}
+
+.sudoku-cell-selected .sudoku-cell-markup td {
+    color: $color-selected-foreground;
+    background-color: $color-selected-background;
+}
+
+.sudoku-cell-error {
+    color: $color-error-foreground;
+}
+
+// some animations
+
+.sudoku-cell.sudoku-cell-solved {
+    animation: cell-solved-notgiven 0.6s linear forwards;
+}
+
+.sudoku-cell-given.sudoku-cell-solved {
+    animation: cell-solved-given 0.6s linear forwards;
+}
+
+.sudoku-cell-selected.sudoku-cell-solved {
+    animation: cell-solved-selected 0.6s linear forwards;
+}
+
+// round keyboard buttons
+
+.btn-circle { 
+    margin: 0;
+    padding: 0;
+    width: 34px; 
+    height: 34px; 
+    border-radius: 17px; 
+    text-align: center; 
+} 

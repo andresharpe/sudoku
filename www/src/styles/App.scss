@@ -1,0 +1,26 @@
+/// ./www/src/styles/App.scss
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap");
+
+$theme-colors: (
+    "primary": #2A9FD6,
+    "secondary": #555,
+    "success": #77B300,
+    "danger": #CC0000,
+    "warning": #FF8800,
+    "info": #9933CC,
+    "light": #222,
+    "dark": #ADAFAE
+);
+
+// Bootstrap customization
+
+@import "~bootstrap/scss/bootstrap";
+
+// Sudoku styling
+
+@import "Sudoku.scss";
+
+// Game over celebrations
+
+@import "SudokuCelebration.scss";

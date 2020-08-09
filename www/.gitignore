@@ -1,0 +1,16 @@
+### ./www/.gitignore
+
+# Bower dependency directory (https://bower.io/)
+bower_components
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+# Dependency directories
+node_modules/
+jspm_packages/
+# Distribution directories
+dist/
+pkg/
+# Output of 'npm pack'
+*.tgz
+# dotenv environment variables file
+.env

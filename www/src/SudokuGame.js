@@ -39,6 +39,7 @@ class SudokuGame extends React.Component {
             userMarkup: userMarkup,
             captureMode: false,
             gameStarted: true,
+            gameStarting: true,
             gamePaused: false,
             gameOver: false
         } 
@@ -49,7 +50,7 @@ class SudokuGame extends React.Component {
         this.doMarkup();
         let userMarkup = this.state.markup.slice().fill(0);
         let puzzlePrevious = this.state.given.slice();
-        this.setState( {userMarkup, puzzlePrevious, gameStarted: true, gameOver: false} );
+        this.setState( {userMarkup, puzzlePrevious, gameStarted: true, gameStarting: true, gameOver: false} );
     }
 
     // Utility methods
@@ -85,6 +86,7 @@ class SudokuGame extends React.Component {
         const el = this.findAncestorElement( target, 'sudoku-cell' )
         if( el !== null ) {
             this.setState( {selected: Number(el.id)} );
+            if( this.state.gameStarting ){ this.setState( {gameStarting:false} ) };
         }
     }
 
@@ -112,6 +114,7 @@ class SudokuGame extends React.Component {
         const key = event.key; 
         const isValidEntry = isFinite(key) && Number(key) > 0;
         const isDelete = key === '0' || key === 'Delete' || key === ' ' || key === '.';
+        if( this.state.gameStarting ){ this.setState( {gameStarting:false} ) };
         if( this.state.captureMode && isValidEntry ) {
             this.setCapture( key );
         } else if( this.state.captureMode && isDelete ) {

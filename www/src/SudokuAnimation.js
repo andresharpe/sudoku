@@ -25,9 +25,13 @@ class SudokuAnimation extends React.Component {
     processAnimations() {
         const game = this.props.game;
         if (!game.state.captureMode) {
+
+            // solved animations
             const elements = document.querySelectorAll('.sudoku-cell-solved');
             if( elements.length > 0 ) {
-                elements.forEach( function(e) { e.addEventListener("animationend", this.removeAnimation, false); }.bind( this ) ) 
+                elements.forEach( function(e) { 
+                    e.addEventListener("animationend", this.removeSolvedAnimation, false); 
+                }.bind( this ) ) 
             } else {
                 const animationSelector = this.calculateAnimations();
                 if ( animationSelector.length > 0 ){
@@ -38,7 +42,7 @@ class SudokuAnimation extends React.Component {
         }
     }
 
-    removeAnimation(e) {
+    removeSolvedAnimation(e) {
         e.target.classList.remove('sudoku-cell-solved');
     }
 

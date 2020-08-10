@@ -42,6 +42,7 @@ class SudokuGrid extends React.Component {
             selected: game.selected === cell,
             selectedValue: selectedValue,
             gameOver: game.gameOver,
+            gameStarting: game.gameStarting,
             captureMode: game.captureMode
         }
         return ( <SudokuCell {...props} key={cell}/> )

@@ -18,6 +18,7 @@ class SudokuCell extends React.Component {
                     + (this.props.given ? " sudoku-cell-given" : "" )
                     + (this.props.error ? " sudoku-cell-error" : "" )
                     + (this.props.given && this.props.gameOver ? " sudoku-cell-selected" : "" )
+                    + (this.props.given && this.props.gameStarting ? " sudoku-startgame" : "" )
                 }   
             >
                 { 

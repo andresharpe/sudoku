@@ -164,6 +164,10 @@ body {
 
 // some animations
 
+.sudoku-cell-given.sudoku-startgame {
+    animation: cell-startgame-keyframes 0.75s linear;
+}
+
 .sudoku-cell.sudoku-cell-solved {
     animation: cell-solved-notgiven-keyframes 0.6s linear forwards;
 }
@@ -175,11 +179,6 @@ body {
 .sudoku-cell-selected.sudoku-cell-solved {
     animation: cell-solved-selected-keyframes 0.6s linear forwards;
 }
-
-.sudoku-cell-given.sudoku-startgame {
-    animation: cell-startgame-keyframes 0.75s linear;
-}
-
 
 // round keyboard buttons
 

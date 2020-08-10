@@ -14,7 +14,7 @@ class SudokuNumberpad extends React.Component {
         const solution = game.state.solution;
         let keypadState = new Array(gridwidth).fill(0);
         for( let i = 0; i < cells; i++ ){
-            (puzzle[i] > 0 && solution[i] === puzzle[i]) ? keypadState[puzzle[i]-1]++ : null;
+            (solution[i] === puzzle[i]) ? keypadState[puzzle[i]-1]++ : null;
         }
         return keypadState;
     }
@@ -29,13 +29,13 @@ class SudokuNumberpad extends React.Component {
                 <Button 
                     key={'keypad_'+v} id={'keypad_'+v} 
                     variant="outline-primary" className="btn-circle" 
-                    onClick={() => game.setCell(v)} 
+                    onClick={() => game.setCellValue(v)} 
                     disabled={keypadState[v-1]===gridwidth}
                 >{v}</Button>
             );
         });
         buttons.push(
-            <Button key="keypad_0" id="keypad_0" variant="outline-primary" className="btn-circle" onClick={() => game.unSetCell()}>␡</Button>
+            <Button key="keypad_0" id="keypad_0" variant="outline-primary" className="btn-circle" onClick={() => game.clearCellValue()}>␡</Button>
         );
         return (<div>{buttons}</div>);
     }
@@ -49,12 +49,12 @@ class SudokuNumberpad extends React.Component {
                 <Button 
                     key={'markuppad_'+v} id={'markuppad_'+v} 
                     variant="outline-success" className="btn-circle" 
-                    onClick={() => game.setUserMarkup(v)} 
+                    onClick={() => game.setUserMarkupValue(v)} 
                 >{v}</Button>
             );
         });
         buttons.push(
-            <Button key="markuppad_0" id="markuppad_0" variant="outline-success" className="btn-circle" onClick={() => game.clearUserMarkup()}>␡</Button>
+            <Button key="markuppad_0" id="markuppad_0" variant="outline-success" className="btn-circle" onClick={() => game.clearUserMarkupValues()}>␡</Button>
         )
         return (<div>{buttons}</div>);
     }

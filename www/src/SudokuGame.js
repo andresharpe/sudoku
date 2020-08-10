@@ -120,11 +120,11 @@ class SudokuGame extends React.Component {
         } else if( this.state.captureMode && isDelete ) {
             this.setCapture( 0 );
         } else if (isValidEntry && ( event.ctrlKey || event.metaKey || event.altKey )) {
-            this.setUserMarkup( key );
+            this.setUserMarkupValue( key );
         } else if(isValidEntry){
-            this.setCell( key );
+            this.setCellValue( key );
         } else if(isDelete) {
-            this.unSetCell();
+            this.clearCellValue();
         } else if(key === "ArrowRight") {
             this.moveRight();
         } else if(key === "ArrowLeft") {
@@ -136,7 +136,7 @@ class SudokuGame extends React.Component {
         } else if( !this.state.captureMode && (key === "m" || key==="M") ) {
             this.copyMarkupToUserMarkup();
         } else if( !this.state.captureMode && (key === "c" || key==="C") ) {
-            this.clearUserMarkup();
+            this.clearUserMarkupValues();
         }
     }
 
@@ -166,7 +166,7 @@ class SudokuGame extends React.Component {
         this.setState( {selected: i} );
     }
 
-    setCell( value ){
+    setCellValue( value ){
         if( this.state.captureMode ) {
             this.setCapture( value );
         } else if( this.state.given[ this.state.selected ] === 0 ){
@@ -177,8 +177,8 @@ class SudokuGame extends React.Component {
         }
     }
 
-    unSetCell(){
-        this.setCell( "0" );
+    clearCellValue(){
+        this.setCellValue( "0" );
         if( !this.state.captureMode && this.state.userMarkup[ this.state.selected ] !== 0 ){
             let newUserMarkup = this.state.userMarkup;
             newUserMarkup[ this.state.selected ] = 0;
@@ -216,7 +216,7 @@ class SudokuGame extends React.Component {
         this.setState( {userMarkup: newUserMarkup} );   
     }
 
-    setUserMarkup( value ){
+    setUserMarkupValue( value ){
         const n = Number(value)-1;
         let newUserMarkup = this.state.userMarkup;
         if( this.isBitSet( n, newUserMarkup[ this.state.selected ] ) ){
@@ -228,10 +228,10 @@ class SudokuGame extends React.Component {
     }
 
     copyMarkupToUserMarkup() {
-        this.setState( {userMarkup: [...this.state.markup]} );
+        this.setState( {userMarkup: [...this.state.markup],gameStarting:false} );
     }
 
-    clearUserMarkup() {
+    clearUserMarkupValues() {
         let newUserMarkup = [...this.state.markup];
         newUserMarkup.fill(0);
         this.setState( {userMarkup: newUserMarkup} );
@@ -248,7 +248,7 @@ class SudokuGame extends React.Component {
         if( !this.state.gameOver ){
             this.state.wasm_sudoku.reset();
             this.state.wasm_sudoku.solve(1);
-            this.setState( {gameOver:true} );
+            this.setState( {gameOver:true,gameStarting:false} );
         }
     }
 
@@ -266,7 +266,7 @@ class SudokuGame extends React.Component {
         if( captureMode ){
             this.state.wasm_sudoku.initialize_with_string( ".".repeat( this.state.cells ) );
             let userMarkup = this.state.markup.slice().fill(0);
-            this.setState( {userMarkup: userMarkup, selected: 0, gameStarted: true, gameOver: true, captureMode: captureMode} );
+            this.setState( {userMarkup: userMarkup, selected: 0, gameStarted: true, gameOver: false, captureMode: captureMode} );
         } else {
             this.setState( {gameStarted: true, gameOver: false, captureMode: captureMode} );
         }

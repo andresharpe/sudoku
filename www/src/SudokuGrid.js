@@ -10,40 +10,39 @@ class SudokuGrid extends React.Component {
         const gridwidth = game.gridwidth;
         const blocksize = game.blocksize;
         const cell = y*gridwidth+x;
-        const given = game.given[cell] > 0;
+        const isGiven = game.given[cell] > 0;
         const value = game.puzzle[cell];
         const solution = game.solution[cell];
         const selectedValue = game.puzzle[game.selected];
 
-        let completed = value > 0;
+        let isCompleted = value > 0;
         let strValue = value > 0 ? String(value) : '';
-        let error = !given && completed && (value !== solution);
-        if ( game.gamePaused ){
+        let isError = !isGiven && isCompleted && (value !== solution);
+        if ( game.isGamePaused ){
             const strMap = "Paused...";
             const cells = game.cells;
             const padding = (cells-strMap.length)/2;
             strValue = strMap.padStart(padding+strMap.length).padEnd(cells).substr(cell,1);
-            completed = true;
-            error = true;
+            isCompleted = true;
+            isError = true;
         }
 
         const props = {
             id: cell,
-            gridwidth: gridwidth,
             blocksize: blocksize,
             row: y,
             column: x,
             block: Math.floor(x/blocksize)+blocksize*Math.floor(y/blocksize),
             value: strValue,
-            given: given,
+            isGiven: isGiven,
             userMarkup: game.userMarkup[cell],
-            completed: completed,
-            error: error,
-            selected: game.selected === cell,
-            selectedValue: selectedValue,
-            gameOver: game.gameOver,
-            gameStarting: game.gameStarting,
-            captureMode: game.captureMode
+            isCompleted: isCompleted,
+            isError: isError,
+            isSelected: game.selected === cell,
+            gridSelectedValue: selectedValue,
+            isGameOver: game.isGameOver,
+            isGameStarting: game.isGameStarting,
+            isCaptureMode: game.isCaptureMode
         }
         return ( <SudokuCell {...props} key={cell}/> )
     }

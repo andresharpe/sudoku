@@ -160,7 +160,7 @@ impl Sudoku {
         }
     } 
 
-    pub fn solve_randomly( &mut self, limit: usize) {
+    fn solve_randomly( &mut self, limit: usize) {
         self.solution_count = 0;
         self.solution_limit = limit;
         self.solve_recursive_randomly();

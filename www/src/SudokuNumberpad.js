@@ -19,7 +19,7 @@ class SudokuNumberpad extends React.Component {
         return keypadState;
     }
 
-    addKeypad() {
+    renderKeypad() {
         const game = this.props.game;
         const gridwidth = game.state.gridwidth;
         const numbers = Array.from({length:gridwidth},(_,i)=>i+1);
@@ -40,7 +40,7 @@ class SudokuNumberpad extends React.Component {
         return (<div>{buttons}</div>);
     }
 
-    addMarkupPad() {
+    renderMarkupPad() {
         const game = this.props.game;
         const gridwidth = game.state.gridwidth;
         const numbers = Array.from({length:gridwidth},(_,i)=>i+1);
@@ -65,12 +65,12 @@ class SudokuNumberpad extends React.Component {
         <div>
             <div className="d-flex justify-content-center text-primary">Keypad</div>
             <Row>
-                {this.addKeypad()}            
+                {this.renderKeypad()}            
             </Row>
             &nbsp;
             <div className="d-flex justify-content-center text-success">Markup</div>
             <Row>
-                {this.addMarkupPad()}
+                {this.renderMarkupPad()}
             </Row>
         </div>
         )

@@ -24,7 +24,7 @@ class SudokuAnimation extends React.Component {
 
     processAnimations() {
         const game = this.props.game;
-        if (!game.state.captureMode) {
+        if (!game.state.isCaptureMode) {
 
             // solved animations
             const elements = document.querySelectorAll('.sudoku-cell-solved');
@@ -63,7 +63,7 @@ class SudokuAnimation extends React.Component {
             return "";
         }
 
-        if (game.state.gameOver) {
+        if (game.state.isGameOver) {
             // Animate entire grid
             puzzlePrevious = game.state.given.slice();
         }
@@ -139,7 +139,7 @@ class SudokuAnimation extends React.Component {
 
         // sound FX
         if( animationSelector !== "" ) {
-            if( game.state.gameOver ){
+            if( game.state.isGameOver ){
                 this.state.soundSuccess.play();
             } else {
                 this.state.soundSmallSuccess.play(0.9);
@@ -154,7 +154,7 @@ class SudokuAnimation extends React.Component {
         return (
             <div>
             { 
-                (game.state.gameOver && !game.state.captureMode) ? (
+                (game.state.isGameOver && !game.state.isCaptureMode) ? (
                     <div className="fireworks">
                         <div className="before"></div>
                         <div className="after"></div>

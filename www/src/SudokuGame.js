@@ -33,15 +33,15 @@ class SudokuGame extends React.Component {
             selected: 0,
             given: given,
             puzzle: puzzle,
-            puzzlePrevious: given.slice(),
             solution: solution,
             markup: markup,
             userMarkup: userMarkup,
-            captureMode: false,
-            gameStarted: true,
-            gameStarting: true,
-            gamePaused: false,
-            gameOver: false
+            puzzlePrevious: given.slice(),
+            isCaptureMode: false,
+            isGameStarted: true,
+            isGameStarting: true,
+            isGamePaused: false,
+            isGameOver: false
         } 
     }
 
@@ -50,7 +50,7 @@ class SudokuGame extends React.Component {
         this.doMarkup();
         let userMarkup = this.state.markup.slice().fill(0);
         let puzzlePrevious = this.state.given.slice();
-        this.setState( {userMarkup, puzzlePrevious, gameStarted: true, gameStarting: true, gameOver: false} );
+        this.setState( {userMarkup, puzzlePrevious, isGameStarted: true, isGameStarting: true, isGameOver: false} );
     }
 
     // Utility methods
@@ -86,7 +86,7 @@ class SudokuGame extends React.Component {
         const el = this.findAncestorElement( target, 'sudoku-cell' )
         if( el !== null ) {
             this.setState( {selected: Number(el.id)} );
-            if( this.state.gameStarting ){ this.setState( {gameStarting:false} ) };
+            if( this.state.isGameStarting ){ this.setState( {isGameStarting:false} ) };
         }
     }
 
@@ -114,11 +114,11 @@ class SudokuGame extends React.Component {
         const key = event.key; 
         const isValidEntry = isFinite(key) && Number(key) > 0;
         const isDelete = key === '0' || key === 'Delete' || key === ' ' || key === '.';
-        if( this.state.gameStarting ){ this.setState( {gameStarting:false} ) };
-        if( this.state.captureMode && isValidEntry ) {
-            this.setCapture( key );
-        } else if( this.state.captureMode && isDelete ) {
-            this.setCapture( 0 );
+        if( this.state.isGameStarting ){ this.setState( {isGameStarting:false} ) };
+        if( this.state.isCaptureMode && isValidEntry ) {
+            this.setCaptureValue( key );
+        } else if( this.state.isCaptureMode && isDelete ) {
+            this.setCaptureValue( 0 );
         } else if (isValidEntry && ( event.ctrlKey || event.metaKey || event.altKey )) {
             this.setUserMarkupValue( key );
         } else if(isValidEntry){
@@ -133,9 +133,9 @@ class SudokuGame extends React.Component {
             this.moveUp();
         } else if(key === "ArrowDown") {
             this.moveDown();
-        } else if( !this.state.captureMode && (key === "m" || key==="M") ) {
+        } else if( !this.state.isCaptureMode && (key === "m" || key==="M") ) {
             this.copyMarkupToUserMarkup();
-        } else if( !this.state.captureMode && (key === "c" || key==="C") ) {
+        } else if( !this.state.isCaptureMode && (key === "c" || key==="C") ) {
             this.clearUserMarkupValues();
         }
     }
@@ -167,33 +167,33 @@ class SudokuGame extends React.Component {
     }
 
     setCellValue( value ){
-        if( this.state.captureMode ) {
-            this.setCapture( value );
+        if( this.state.isCaptureMode ) {
+            this.setCaptureValue( value );
         } else if( this.state.given[ this.state.selected ] === 0 ){
             let puzzle = this.state.puzzle;
             puzzle[ this.state.selected ] = Number(value);
-            this.setState( {puzzle, gameOver: this.state.wasm_sudoku.is_solved() } );
+            this.setState( {puzzle, isGameOver: this.state.wasm_sudoku.is_solved() } );
             this.doMarkup();
         }
     }
 
     clearCellValue(){
         this.setCellValue( "0" );
-        if( !this.state.captureMode && this.state.userMarkup[ this.state.selected ] !== 0 ){
+        if( !this.state.isCaptureMode && this.state.userMarkup[ this.state.selected ] !== 0 ){
             let newUserMarkup = this.state.userMarkup;
             newUserMarkup[ this.state.selected ] = 0;
             this.setState( {userMarkup: newUserMarkup} );   
         }
     }
 
-    setCapture( value ){
+    setCaptureValue( value ){
         const given = this.state.given;
         const puzzle = this.state.puzzle;
         const selected = this.state.selected;
         given[ selected ] = puzzle[ selected ] = Number(value);
         this.setState( {
             puzzle, given, 
-            gameOver: false, 
+            isGameOver: false, 
             selected: selected === this.state.cells-1 ? 0 : selected+1 
         } );
         this.doMarkup();
@@ -228,7 +228,7 @@ class SudokuGame extends React.Component {
     }
 
     copyMarkupToUserMarkup() {
-        this.setState( {userMarkup: [...this.state.markup],gameStarting:false} );
+        this.setState( {userMarkup: [...this.state.markup],isGameStarting:false} );
     }
 
     clearUserMarkupValues() {
@@ -245,10 +245,10 @@ class SudokuGame extends React.Component {
     }
 
     handleSolveClick() {
-        if( !this.state.gameOver ){
+        if( !this.state.isGameOver ){
             this.state.wasm_sudoku.reset();
             this.state.wasm_sudoku.solve(1);
-            this.setState( {gameOver:true,gameStarting:false} );
+            this.setState( {isGameOver:true,isGameStarting:false} );
         }
     }
 
@@ -262,13 +262,13 @@ class SudokuGame extends React.Component {
     }
 
     handleCaptureClick() {
-        const captureMode = !this.state.captureMode;
-        if( captureMode ){
+        const isCaptureMode = !this.state.isCaptureMode;
+        if( isCaptureMode ){
             this.state.wasm_sudoku.initialize_with_string( ".".repeat( this.state.cells ) );
             let userMarkup = this.state.markup.slice().fill(0);
-            this.setState( {userMarkup: userMarkup, selected: 0, gameStarted: true, gameOver: false, captureMode: captureMode} );
+            this.setState( {userMarkup: userMarkup, selected: 0, isGameStarted: true, isGameOver: false, isCaptureMode: isCaptureMode} );
         } else {
-            this.setState( {gameStarted: true, gameOver: false, captureMode: captureMode} );
+            this.setState( {isGameStarted: true, isGameOver: false, isCaptureMode: isCaptureMode} );
         }
     }
 

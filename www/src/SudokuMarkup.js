@@ -17,7 +17,7 @@ class SudokuMarkup extends React.Component {
         const mask = this.props.userMarkup;
         const isSet = this.isBitSet(n,mask);
         const val = isSet ? String(n+1) : "\u00a0";
-        const highlight = String(this.props.selectedValue) === val;
+        const highlight = String(this.props.gridSelectedValue) === val;
         return ( 
             <td key={n}>
                 {

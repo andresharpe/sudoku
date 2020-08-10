@@ -14,20 +14,24 @@ class SudokuCell extends React.Component {
                 block={this.props.block}
                 className={
                     "sudoku-cell" 
-                    + (this.props.selected && (!this.props.gameOver || this.props.captureMode) ? " sudoku-cell-selected" : "" )
-                    + (this.props.given ? " sudoku-cell-given" : "" )
-                    + (this.props.error ? " sudoku-cell-error" : "" )
-                    + (this.props.given && this.props.gameOver ? " sudoku-cell-selected" : "" )
-                    + (this.props.given && this.props.gameStarting ? " sudoku-startgame" : "" )
+                    + (this.props.isSelected && (!this.props.isGameOver || this.props.isCaptureMode) ? " sudoku-cell-selected" : "" )
+                    + (this.props.isGiven ? " sudoku-cell-given" : "" )
+                    + (this.props.isError ? " sudoku-cell-error" : "" )
+                    + (this.props.isGiven && this.props.isGameOver ? " sudoku-cell-selected" : "" )
+                    + (this.props.isGiven && this.props.isGameStarting ? " sudoku-startgame" : "" )
                 }   
             >
                 { 
-                    (this.props.completed) 
+                    (this.props.isCompleted) 
                     ?(
                         this.props.value
                     ):(
                         ( (this.props.userMarkup & b_111111111) > 0 ) ?
-                            <SudokuMarkup {...this.props} />
+                            <SudokuMarkup 
+                                blocksize={this.props.blocksize} 
+                                userMarkup={this.props.userMarkup}
+                                gridSelectedValue={this.props.gridSelectedValue}
+                            />
                         : null
                     )
                 }

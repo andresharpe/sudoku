@@ -5,7 +5,7 @@
 // screen size calculations
 
 $cell_size_desktop: 60px;
-$cell_size_mobile: 9vw;
+$cell_size_mobile: 10vw;
 $mobile_width: $cell_size_desktop*11;
 
 // colors
@@ -64,7 +64,7 @@ $color-selected-background: theme-color("warning");
 }
 
 @keyframes cell-solved-selected-keyframes {
-    0% { @include cell-selected-style(); }
+    0% { @include cell-given-style(); }
     50% { @include cell-solved-style(); }
     100% { @include cell-selected-style(); }
 }
@@ -165,7 +165,7 @@ body {
 // some animations
 
 .sudoku-cell-given.sudoku-startgame {
-    animation: cell-startgame-keyframes 0.75s linear;
+    animation: cell-startgame-keyframes 0.4s linear forwards;
 }
 
 .sudoku-cell.sudoku-cell-solved {

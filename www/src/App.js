@@ -11,7 +11,7 @@ class App extends React.Component {
   render() {
     return (
         <div className="App">
-            <Container fluid>
+            <div>
                 <Navbar bg="dark">
                   <Navbar.Brand href="#">
                     <img
@@ -26,7 +26,7 @@ class App extends React.Component {
               </Navbar>
               &nbsp;
               <SudokuGame />
-          </Container>
+          </div>
         </div>
       );
   }

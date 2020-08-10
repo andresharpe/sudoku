@@ -9,15 +9,15 @@ class SudokuMenu extends React.Component {
     
     render() {
         const game = this.props.game;
-        const captureMode = game.state.captureMode;
-        const captureButtonText = captureMode ? 'Done' : 'Capture';
+        const isCaptureMode = game.state.isCaptureMode;
+        const captureButtonText = isCaptureMode ? 'Done' : 'Capture';
         return (
             <div>
             <ButtonGroup aria-label="Sudoku Menu" size="sm">
-                <Button id="new" variant="primary" onClick={() => game.handleNewClick()} disabled={captureMode}>New</Button>
-                <Button id="solve"  variant="primary" onClick={() => game.handleSolveClick()} disabled={captureMode}>Solve</Button>
+                <Button id="new" variant="primary" onClick={() => game.handleNewClick()} disabled={isCaptureMode}>New</Button>
+                <Button id="solve"  variant="primary" onClick={() => game.handleSolveClick()} disabled={isCaptureMode}>Solve</Button>
                 <Button id="markup" variant="primary" onClick={() => game.handleMarkupClick()}>Markup</Button>
-                <Button id="restart" variant="primary" onClick={() => game.handleRestartClick()} disabled={captureMode}>Restart</Button>
+                <Button id="restart" variant="primary" onClick={() => game.handleRestartClick()} disabled={isCaptureMode}>Restart</Button>
                 <Button id="capture" variant="primary" onClick={() => game.handleCaptureClick()}>{captureButtonText}</Button>
             </ButtonGroup>
         </div>

@@ -21,7 +21,7 @@ class App extends React.Component {
                       alt="Rust Sudoku Logo"
                     />
                     &nbsp;&nbsp;
-                    Sudoku
+                    Sudoku 1.0
                   </Navbar.Brand>
               </Navbar>
               &nbsp;
